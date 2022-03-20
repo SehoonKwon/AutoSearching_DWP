@@ -1,4 +1,4 @@
-module github.com/SehoonKwon/AutoBooking
+module github.com/SehoonKwon/AutoLogin
 
 go 1.17
 
