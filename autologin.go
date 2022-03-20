@@ -7,9 +7,36 @@ import (
 
 	"github.com/fedesog/webdriver"
 	"github.com/tebeka/selenium"
+	_ "github.com/zserge/lorca"
 )
 
 func main() {
+
+	/*
+		// HTML로 UI를 생성. 수동 작업 할 동안 멈추는 용도
+		ui, err := lorca.New("data:text/html,"+url.PathEscape(`
+			<html>
+				<head><title>Hello</title></head>
+				<body>
+					<h1>검색할 번호 입력</h1>
+
+				</body>
+
+			</html>
+			`), "", 480, 320)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer ui.Close()
+
+		// UI 가 닫힐 때까지 기다림
+		<-ui.Done()
+	*/
+
+	fmt.Println("검색할 번호 입력")
+	var pn string
+	fmt.Scan(&pn)
+
 	chromeDriver := webdriver.NewChromeDriver("./chromedriver.exe")
 	err := chromeDriver.Start()
 	if err != nil {
@@ -34,7 +61,7 @@ func main() {
 	//셀레니움 관련 제어 부분
 	id, err := session.FindElement(selenium.ByCSSSelector, "#LoginPage_loginMain_tbxID")
 	if err != nil {
-		log.Println("aaaaaaaaaa", err)
+		log.Println(err)
 	}
 	id.Click()
 	id.SendKeys("sh_kwon")
@@ -55,29 +82,11 @@ func main() {
 	combo, _ = combo.FindElement(selenium.ByXPATH, "//*[@id='bzrForm']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div[2]/select/option[4]")
 	combo.Click()
 
-	pn := "01089645794"
 	inputPn, _ := session.FindElement(selenium.ByXPATH, "//*[@id='bzrForm']/div[1]/div[2]/div/div[1]/div[2]/div[2]/div[1]/input")
 	inputPn.Click()
 	fmt.Println(inputPn.Text())
 	inputPn.SendKeys(pn)
 	inputPn.SendKeys(selenium.EnterKey)
-
-	/*
-		// HTML로 UI를 생성. 수동 작업 할 동안 멈추는 용도
-		ui, err := lorca.New("data:text/html,"+url.PathEscape(`
-		<html>
-			<head><title>Hello</title></head>
-			<body><h1>Hello, world!</h1></body>
-		</html>
-		`), "", 480, 320)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer ui.Close()
-
-		// UI 가 닫힐 때까지 기다림
-		<-ui.Done()
-	*/
 
 	fmt.Println("===================================================================================================")
 
