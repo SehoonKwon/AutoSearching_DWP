@@ -1,4 +1,4 @@
-module github.com/SehoonKwon/AutoLogin
+module github.com/SehoonKwon/AutoSearch
 
 go 1.17
 
