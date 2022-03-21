@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/fedesog/webdriver"
+	"github.com/joho/godotenv"
 	"github.com/tebeka/selenium"
 	_ "github.com/zserge/lorca"
 )
@@ -58,16 +60,23 @@ func main() {
 
 	time.Sleep(1 * time.Second)
 
+	err = godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	fmt.Println(os.Getenv("ID"), os.Getenv("PW"))
+
 	//셀레니움 관련 제어 부분
 	id, err := session.FindElement(selenium.ByCSSSelector, "#LoginPage_loginMain_tbxID")
 	if err != nil {
 		log.Println(err)
 	}
 	id.Click()
-	id.SendKeys("sh_kwon")
+	id.SendKeys(os.Getenv("ID"))
 
 	pw, _ := session.FindElement(selenium.ByCSSSelector, "#LoginPage_loginMain_tbxPwd")
-	pw.SendKeys("rnjstpgns3!")
+	pw.SendKeys(os.Getenv("PW"))
 	pw.SendKeys(selenium.EnterKey)
 
 	nowUrl, _ = session.GetUrl()
